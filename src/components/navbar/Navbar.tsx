@@ -20,7 +20,13 @@ const Navbar: React.FC = () => {
           <span>KID</span>
           <Notifications className='icon' />
           <img src={ProfilePic} alt='profile pic' />
-          <ArrowDropDown className='icon' />
+          <div className='profile'>
+            <ArrowDropDown className='icon' />
+            <div className='options'>
+              <span>Settings</span>
+              <span>Log Out</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
