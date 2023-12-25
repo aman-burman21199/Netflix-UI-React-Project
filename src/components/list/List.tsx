@@ -4,17 +4,22 @@ import {
 } from "@material-ui/icons"
 import "./list.scss"
 import ListItem from "../listItem/ListItem"
-import { useRef } from "react"
+import { useRef, useState } from "react"
 
 const List: React.FC = () => {
+  const [slideNumber, setSlideNumber] = useState<number>(0)
+
   const listRef = useRef<HTMLDivElement>(null)
 
   const handleClick = (direction: string) => {
     if (listRef.current !== null) {
       let distance = listRef.current.getBoundingClientRect().x - 50
-      if (direction === "left") {
+      if (direction === "left" && slideNumber > 0) {
+        setSlideNumber((currentSlideNumber) => currentSlideNumber - 1)
         listRef.current.style.transform = `translateX(${230 + distance}px)`
-      } else {
+      }
+      if (direction === "right" && slideNumber < 5) {
+        setSlideNumber((currentSlideNumber) => currentSlideNumber + 1)
         listRef.current.style.transform = `translateX(${-230 + distance}px)`
       }
     }
@@ -24,10 +29,12 @@ const List: React.FC = () => {
     <div className='list'>
       <span className='listTitle'>Continue to Watch</span>
       <div className='wrapper'>
-        <ArrowBackIosOutlined
-          className='sliderArrow left'
-          onClick={() => handleClick("left")}
-        />
+        {slideNumber > 0 && (
+          <ArrowBackIosOutlined
+            className='sliderArrow left'
+            onClick={() => handleClick("left")}
+          />
+        )}
         <div className='container' ref={listRef}>
           <ListItem />
           <ListItem />
@@ -40,10 +47,12 @@ const List: React.FC = () => {
           <ListItem />
           <ListItem />
         </div>
-        <ArrowForwardIosOutlined
-          className='sliderArrow right'
-          onClick={() => handleClick("right")}
-        />
+        {slideNumber < 5 && (
+          <ArrowForwardIosOutlined
+            className='sliderArrow right'
+            onClick={() => handleClick("right")}
+          />
+        )}
       </div>
     </div>
   )
