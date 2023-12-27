@@ -1,6 +1,25 @@
+import { useRef, useState } from "react"
 import "./register.scss"
 
 const Register: React.FC = () => {
+  const [email, setEmail] = useState<string>("")
+  const [password, setPassword] = useState<string>("")
+  console.log(password)
+
+  const emailRef = useRef<HTMLInputElement>(null)
+  const passwordRef = useRef<HTMLInputElement>(null)
+
+  const handleStart = () => {
+    if (emailRef.current !== null) {
+      setEmail(emailRef.current?.value)
+    }
+  }
+  const handleFinish = () => {
+    if (passwordRef.current !== null) {
+      setPassword(passwordRef.current?.value)
+    }
+  }
+
   return (
     <div className='register'>
       <div className='top'>
@@ -19,10 +38,21 @@ const Register: React.FC = () => {
         <p>
           Ready to watch? Enter your email to create or restart your membership.
         </p>
-        <div className='input'>
-          <input type='email' placeholder='email address' />
-          <button className='registerButton'>Get Started</button>
-        </div>
+        {!email ? (
+          <div className='input'>
+            <input type='email' placeholder='email address' ref={emailRef} />
+            <button className='registerButton' onClick={handleStart}>
+              Get Started
+            </button>
+          </div>
+        ) : (
+          <form className='input'>
+            <input type='password' placeholder='password' ref={passwordRef} />
+            <button className='registerButton' onClick={handleFinish}>
+              Start
+            </button>
+          </form>
+        )}
       </div>
     </div>
   )
